@@ -1,0 +1,35 @@
+from google import genai
+from config import GEMINI_API_KEY
+
+client = genai.Client(api_key=GEMINI_API_KEY)
+
+def generate_summary(text: str) -> str:
+    prompt = f"""
+    Ты — опытный преподаватель университета.
+    Проанализируй документ и составь краткий конспект.
+    Ответ оформи так:
+
+    📌 Тема
+
+    📖 Основные идеи
+
+    📝 Ключевые термины
+
+    ✅ Краткий вывод
+    
+    Не используй Markdown.
+    Не используй символы *, #, -, **.
+    Верни обычный текст с эмодзи и пустыми строками.
+    Для перечисления используй символ •
+    Пиши простым русским языком, но не упрощай терминологию и научную суть.
+    Сделай конспект объемом не более 2500 символов.
+    
+
+    Документ:
+
+    {text}
+    """
+    response = client.models.generate_content(
+        model = "gemini-2.5-flash",
+        contents = prompt)
+    return response.text
