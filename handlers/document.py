@@ -1,3 +1,4 @@
+import os
 from aiogram import Router, F
 from aiogram.types import Message
 from services.pdf_reader import extract_text
@@ -15,6 +16,7 @@ async def handle_document(message: Message):
         await message.answer('Пожалуйста, отправьте PDF-файл.')
         return
 
+    os.makedirs('data', exist_ok=True)
     file_name = document.file_name
     file_path = f'data/{file_name}'
 
